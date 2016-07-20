@@ -4,17 +4,15 @@
 
 Name:           %{?scl_prefix}nodejs-promzard
 Version:        0.3.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        A prompting wizard for building files from specialized PromZard modules
+ExclusiveArch:  %{nodejs_arches} noarch
 BuildArch:      noarch
-
-Group:          System Environment/Libraries
 # license will be included in next upstream release
 # # https://raw.github.com/isaacs/promzard/master/LICENSE
-License:        BSD
+License:        ISC
 URL:            https://github.com/isaacs/promzard
 Source0:        http://registry.npmjs.org/promzard/-/promzard-%{version}.tgz
-BuildRoot:      %{_tmppath}/%{pkg_name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  %{?scl_prefix}nodejs-devel
 
@@ -30,21 +28,19 @@ The goal is a nice drop-in enhancement for `npm init`.
 #nothing to do
 
 %install
-rm -rf %buildroot
 mkdir -p %{buildroot}%{nodejs_sitelib}/promzard
 cp -pr package.json promzard.js %{buildroot}%{nodejs_sitelib}/promzard
 
 %nodejs_symlink_deps
 
-%clean
-rm -rf %buildroot
-
 %files
-%defattr(-,root,root,-)
 %{nodejs_sitelib}/promzard
-%doc example README.md
+%doc example README.md LICENSE
 
 %changelog
+* Thu Jun 09 2016 Zuzana Svetlikova <zsvetlik@redhat.com> - 0.3.0-3
+- Resolves: rhbz#1334856 , fixes wrong license
+
 * Tue Feb 16 2016 Tomas Hrcka <thrcka@redhat.com> - 0.3.0-1
 - New upstream release 
 
